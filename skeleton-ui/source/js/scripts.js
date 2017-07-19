@@ -14,6 +14,7 @@ import usersController from '../components/users/users-controller';
 import addUserController from '../components/users/add-user-controller';
 import editUserController from '../components/users/edit-user-controller';
 import deleteUserModal from '../components/users/delete-user-modal-directive';
+import signUpController from '../components/sign-up/sign-up-controller';
 
 app.config(function ($routeProvider, $locationProvider) {
     $locationProvider.html5Mode(true);
@@ -66,6 +67,12 @@ app.config(function ($routeProvider, $locationProvider) {
             controllerAs: 'euc',
             activeTab: 'users'
         })
+        .when('/sign-up', {
+            templateUrl: 'components/sign-up/sign-up-template.html',
+            controller: 'signUpController',
+            controllerAs: 'suc',
+            activeTab: 'sign-up'
+        })
         .otherwise({
             redirectTo: '/home'
         });
@@ -85,6 +92,7 @@ app.controller('usersController', usersController);
 app.controller('addUserController', addUserController);
 app.controller('editUserController', editUserController);
 app.directive('deleteUserModal', deleteUserModal);
+app.controller('signUpController', signUpController);
 
 app.config(function($httpProvider) {
     $httpProvider.interceptors.push('authenticationInterceptor');
@@ -103,7 +111,7 @@ app.run(function ($rootScope, $location, loginService) {
                 }
             });
         } else {
-            if ($location.path().includes('reset-password') === false) {
+            if ($location.path().includes('sign-up') === false && $location.path().includes('reset-password') === false) {
                 $location.path('/login');
             }
         }

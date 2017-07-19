@@ -3,7 +3,7 @@ export default function (loginService) {
 
     uc.users = {
         sort: {
-            column: 'user_name',
+            column: 'user_last_name',
             descending: false
         }
     };

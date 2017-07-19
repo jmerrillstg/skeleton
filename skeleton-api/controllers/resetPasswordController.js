@@ -7,7 +7,7 @@ var mysql = require('mysql'),
 
 exports.reset_password = function(req, res) {
     console.log(req.params.userEmail);
-    var userQuery = 'SELECT user_id, user_name FROM users WHERE user_email=\''+req.params.userEmail+'\'';
+    var userQuery = 'SELECT user_id, user_name, user_last_name FROM users WHERE user_email=\''+req.params.userEmail+'\'';
 
     connection.query(userQuery, function (err, user) {
         if (err || !user || !user.length) {
@@ -23,7 +23,7 @@ exports.reset_password = function(req, res) {
                         from: 'gutbomb@gmail.com',
                         to: req.params.userEmail,
                         subject: 'Panic Button Password Reset',
-                        text: 'Hello '+user[0].user_name+',\n\rYour password has been reset to \''+newPassword+'\'.  Please visit http://localhost:3000/login to log in.'
+                        text: 'Hello '+user[0].user_first_name+' '+user[0].user_last_name+',\n\rYour password has been reset to \''+newPassword+'\'.  Please visit http://localhost:3000/login to log in.'
                     };
                     transporter.sendMail(mailOptions, function(){});
                     return res.json({'status': 'password changed successfully'})

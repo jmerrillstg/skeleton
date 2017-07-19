@@ -1,0 +1,42 @@
+<section>
+    <div class="container">
+        <h2>Sign Up</h2>
+        <form name="signUpForm" id="signUpForm">
+            <div class="row">
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label for="inputFirstName" class="sr-only">First Name</label>
+                        <input type="text" id="inputFirstName" name="inputFirstName" class="form-control" ng-model="suc.inputFirstName" placeholder="First Name" required autofocus>
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label for="inputLastName" class="sr-only">Last Name</label>
+                        <input type="text" id="inputLastName" name="inputLastName" class="form-control" ng-model="suc.inputLastName" placeholder="Last Name" required>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputEmail" class="sr-only">Email address</label>
+                <input type="email" id="inputEmail" name="inputEmail" class="form-control" ng-model="suc.inputEmail" placeholder="Email address" required autofocus>
+            </div>
+            <fieldset class="input-group-vertical">
+                <div class="form-group">
+                    <label for="inputPassword" class="sr-only">Password</label>
+                    <input type="password" id="inputPassword" class="form-control" ng-model="suc.inputPassword" placeholder="Password" required>
+                </div>
+                <div class="form-group">
+                    <label for="confirmPassword" class="sr-only">Password</label>
+                    <input type="password" id="confirmPassword" class="form-control" ng-model="suc.inputPassword" placeholder="Confirm Password" required>
+                </div>
+            </fieldset>
+            <button class="btn btn-lg btn-primary btn-block" ng-click="suc.signUp()" ng-disabled="signUpForm.$invalid">Sign in</button>
+        </form><br>
+        <div class="alert alert-success" ng-show="suc.success">
+            {{suc.successMessage}}
+        </div>
+        <div class="alert alert-danger" ng-show="suc.error">
+            {{suc.error}}
+        </div>
+    </div>
+</section>

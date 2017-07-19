@@ -138,7 +138,7 @@ export default function ($q, $http, $window, $rootScope, $location, appConfig) {
         $http({
             method: 'PUT',
             url: appConfig.apiUrl+'/user/'+userId,
-            data: {user_name: user.user_name, user_level: user.user_level, user_email: user.user_email},
+            data: {user_first_name: user.user_first_name, user_last_name: user.user_last_name, user_level: user.user_level, user_email: user.user_email},
             headers : {'Content-Type': 'application/json'}
         }).then(function() {
             defer.resolve(true);
@@ -157,7 +157,7 @@ export default function ($q, $http, $window, $rootScope, $location, appConfig) {
         $http({
             method: 'POST',
             url: appConfig.apiUrl+'/user',
-            data: {user_name: user.first_name+' '+user.last_name, user_level: user.user_level, email: user.email},
+            data: {user_first_name: user.first_name, user_last_name: user.last_name, user_level: user.user_level, email: user.email},
             headers : {'Content-Type': 'application/json'}
         }).then(function() {
             defer.resolve(true);

@@ -29,6 +29,7 @@
                     </ul>
                 </li>
                 <li ng-if="isLoggedIn" ng-class="{active: $route.current.activeTab == 'login'}"><a href="#" ng-click="logout()">Logout</a></li>
+                <li ng-if="!isLoggedIn" ng-class="{active: $route.current.activeTab == 'sign-up'}"><a href="/sign-up">Sign Up</a></li>
                 <li ng-if="!isLoggedIn" ng-class="{active: $route.current.activeTab == 'login'}"><a href="/login">Login</a></li>
             </ul>
         </div><!--/.navbar-collapse -->

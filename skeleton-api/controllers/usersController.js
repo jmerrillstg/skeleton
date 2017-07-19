@@ -15,7 +15,7 @@ exports.get_users = function(req, res) {
         }
     }
 
-    var usersQuery = 'SELECT user_id, user_email, user_name, password_mustchange, user_level, last_login_time, user_created_time FROM users'+whereClause+' ORDER BY user_email';
+    var usersQuery = 'SELECT user_id, user_email, user_first_name, user_last_name, password_mustchange, user_level, last_login_time, user_created_time FROM users'+whereClause+' ORDER BY user_email';
 
     connection.query(usersQuery, function (err, users) {
         if (err || !users || !users.length) {
@@ -37,7 +37,7 @@ exports.add_user = function(req, res) {
                 } else {
                     if (!user || !user.length) {
                         var newPassword=Math.random().toString(36).substr(2, 8);
-                        var addUserQuery = 'INSERT INTO users (user_name, user_email, user_level, password_mustchange, user_password) VALUES (\'' + req.body.user_name + '\', \'' + req.body.email + '\', \'' + req.body.user_level + '\', 1, \'' + passwordHash.generate(newPassword) + '\')';
+                        var addUserQuery = 'INSERT INTO users (user_name, user_last_name, user_email, user_level, password_mustchange, user_password) VALUES (\'' + req.body.user_first_name + '\', \'' + req.body.user_last_name + '\', \'' + req.body.email + '\', \'' + req.body.user_level + '\', 1, \'' + passwordHash.generate(newPassword) + '\')';
                         connection.query(addUserQuery, function (err) {
                             if (err) {
                                 return res.status(500).json({'status': 'Database error'});
@@ -46,7 +46,7 @@ exports.add_user = function(req, res) {
                                     from: 'gutbomb@gmail.com',
                                     to: req.body.email,
                                     subject: 'Skeleton - New Account',
-                                    text: 'Hello '+req.body.user_name+',\n\rAn account has been created for you on the Skeleton system.  Your username is \''+req.body.email+'\' and your password is \''+newPassword+'\'.  Please visit '+appConfig.appUrl+' to log in.'
+                                    text: 'Hello '+req.body.user_first_name+' '+req.body.user_last_name+',\n\rAn account has been created for you on the Skeleton system.  Your username is \''+req.body.email+'\' and your password is \''+newPassword+'\'.  Please visit '+appConfig.appUrl+' to log in.'
                                 };
                                 transporter.sendMail(mailOptions, function(){});
                                 return res.json({'status': 'User added successfully'});
@@ -70,7 +70,7 @@ exports.update_user = function(req, res) {
         var decodedToken = jwt.decode(req.token);
         if (decodedToken.id === req.params.userId || decodedToken.userLevel === 'admin') {
 
-            var updateUserQuery = 'UPDATE users SET user_name=\'' + req.body.user_name + '\', user_email=\'' + req.body.user_email + '\', user_level=\'' + req.body.user_level + '\' WHERE user_id=' + req.params.userId;
+            var updateUserQuery = 'UPDATE users SET user_first_name=\'' + req.body.user_first_name + '\', user_last_name=\'' + req.body.last_name + '\', user_email=\'' + req.body.user_email + '\', user_level=\'' + req.body.user_level + '\' WHERE user_id=' + req.params.userId;
             connection.query(updateUserQuery, function (err) {
                 if (err) {
                     return res.status(500).json({'status': 'Database error', 'errors': err});

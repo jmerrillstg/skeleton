@@ -10,7 +10,7 @@ var mysql = require('mysql'),
 exports.update_account = function(req, res) {
     if(verifyToken(req.token, appConfig.jwtKey)) {
     var decodedToken = jwt.decode(req.token);
-    var updateUserQuery = 'UPDATE users SET user_name=\'' + req.body.user_name + '\', user_email=\'' + req.body.user_email + '\' WHERE user_id=' + decodedToken.id;
+    var updateUserQuery = 'UPDATE users SET user_name=\'' + req.body.user_first_name + '\', user_last_name=\'' + req.body.user_last_name + '\', user_email=\'' + req.body.user_email + '\' WHERE user_id=' + decodedToken.id;
         connection.query(updateUserQuery, function (err) {
             if (err) {
                 return res.status(500).json({'status': 'Database error', 'errors': err});
