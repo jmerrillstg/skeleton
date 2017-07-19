@@ -1,0 +1,14 @@
+{
+    "dev" : {
+        "appConfig": {
+            "apiUrl": "http://localhost:3001/api",
+            "tokenName": "skeleton_token"
+        }
+    },
+    "prod" : {
+        "appConfig": {
+            "apiUrl": "http://10.117.3.112:3001/api",
+            "tokenName": "skeleton_token"
+        }
+    }
+}

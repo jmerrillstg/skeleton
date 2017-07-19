@@ -1,0 +1,8 @@
+public/
+node_modules/
+.git/
+lib/
+bundle.js
+.DS_Store
+.idea/
+skeleton-ui.iml
