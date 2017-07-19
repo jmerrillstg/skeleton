@@ -1,6 +1,6 @@
 # Skeleton
 
-This is a skeleton application with a NodeJS/MySQL back-end and an Angular/Bootstrap front end featuring user managementg with roles and JWT based login.
+This is a skeleton application with a NodeJS/MySQL back-end and an Angular/Bootstrap front end featuring user management with roles and JWT based login.
 
 ## API Installation
 
