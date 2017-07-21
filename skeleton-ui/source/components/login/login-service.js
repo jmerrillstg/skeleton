@@ -170,6 +170,25 @@ export default function ($q, $http, $window, $rootScope, $location, appConfig) {
         return defer.promise;
     }
 
+    function signUpUser(user) {
+        let defer = $q.defer();
+
+        $http({
+            method: 'POST',
+            url: appConfig.apiUrl+'/sign-up',
+            data: {user_first_name: user.firstName, user_last_name: user.lastName, user_password: user.password, email: user.email},
+            headers : {'Content-Type': 'application/json'}
+        }).then(function() {
+            defer.resolve(true);
+        }, function() {
+            defer.resolve(false);
+        }).catch(function(error) {
+            defer.reject(error);
+        });
+
+        return defer.promise;
+    }
+
     function deleteUser(userId) {
         let defer = $q.defer();
 
@@ -183,6 +202,23 @@ export default function ($q, $http, $window, $rootScope, $location, appConfig) {
         });
 
         return defer.promise;
+    }
+
+    function validateUser(userValidationString) {
+        return $http.get(appConfig.apiUrl+'/validate/'+userValidationString).then(function(response) {
+            return response.data[0];
+        });
+    }
+
+    function reSendValidation(email) {
+        return $http.get(appConfig.apiUrl+'/resend-validation/'+email).then(
+            function(response) {
+                return response.data;
+            }).catch(
+            function(error) {
+                return $q.reject(error);
+            }
+        );
     }
 
     return {
@@ -203,7 +239,10 @@ export default function ($q, $http, $window, $rootScope, $location, appConfig) {
         updateUser: updateUser,
         addUser: addUser,
         deleteUser: deleteUser,
-        getUsers: getUsers
+        getUsers: getUsers,
+        validateUser: validateUser,
+        reSendValidation: reSendValidation,
+        signUpUser: signUpUser
     };
 }
 

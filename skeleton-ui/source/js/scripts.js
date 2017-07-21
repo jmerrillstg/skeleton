@@ -73,6 +73,18 @@ app.config(function ($routeProvider, $locationProvider) {
             controllerAs: 'suc',
             activeTab: 'sign-up'
         })
+        .when('/validate/:userValidationString', {
+            templateUrl: 'components/login/validate-template.html',
+            controller: 'loginController',
+            controllerAs: 'lc',
+            activeTab: 'login'
+        })
+        .when('/not-validated', {
+            templateUrl: 'components/login/not-validated-template.html',
+            controller: 'loginController',
+            controllerAs: 'lc',
+            activeTab: 'login'
+        })
         .otherwise({
             redirectTo: '/home'
         });
@@ -106,12 +118,17 @@ app.run(function ($rootScope, $location, loginService) {
             loginService.getUser($rootScope.userId).then(function(user) {
                 $rootScope.user=user;
                 $rootScope.isAdmin = $rootScope.user.user_level === 'admin';
+                if($rootScope.user.user_email_validated===0) {
+                    loginService.clearToken();
+                    $rootScope.isLoggedIn = false;
+                    $location.path('/not-validated');
+                }
                 if($rootScope.user.password_mustchange===1) {
                     $location.path('/change-password');
                 }
             });
         } else {
-            if ($location.path().includes('sign-up') === false && $location.path().includes('reset-password') === false) {
+            if ($location.path().includes('sign-up') === false && $location.path().includes('reset-password') === false && $location.path().includes('validate') === false) {
                 $location.path('/login');
             }
         }

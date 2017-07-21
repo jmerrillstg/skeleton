@@ -24,6 +24,15 @@ module.exports = function(app) {
     .put(usersController.update_user)
     .delete(usersController.delete_user);
 
+    app.route('/api/sign-up')
+    .post(usersController.sign_up);
+
+    app.route('/api/validate/:userValidationString')
+    .get(usersController.validate_user);
+
+    app.route('/api/resend-validation/:userEmail')
+    .get(usersController.resend_validation);
+
     app.route('/api/reset-password/:userEmail')
     .get(resetPasswordController.reset_password);
 };

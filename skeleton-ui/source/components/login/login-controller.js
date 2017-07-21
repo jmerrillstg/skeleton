@@ -1,4 +1,4 @@
-export default function (loginService, $rootScope, $location) {
+export default function (loginService, $rootScope, $location, $routeParams) {
     let lc = this;
 
     lc.inputEmail = '';
@@ -6,6 +6,21 @@ export default function (loginService, $rootScope, $location) {
 
     lc.error = '';
     lc.success = false;
+    if (typeof($routeParams.userValidationString)!=='undefined') {
+        loginService.validateUser($routeParams.userValidationString)
+        .then(function () {
+            $location.path('/login');
+        },
+        function (response) {
+            lc.success = false;
+            lc.successMessage = '';
+            lc.error='Validation failed: '+response.data.status;
+        }).catch(function (error) {
+            lc.success = false;
+            lc.successMessage = '';
+            lc.error='Validation failed: '+error;
+        });
+    }
 
     function login() {
         loginService.loginUser(lc.inputEmail, lc.inputPassword).then(function (data) {
@@ -18,24 +33,41 @@ export default function (loginService, $rootScope, $location) {
                 lc.error='Login failed';
             }
         }).catch(function (error) {
-            alert('An error occurred.\n'+error);
+            lc.success = false;
+            lc.successMessage = '';
+            lc.error='Validation failed: '+error;
         });
     }
 
     function resetPassword() {
-        loginService.resetPassword(lc.inputEmail).then(
-            function() {
-                lc.success=true;
-                lc.successMessage='Password Reset Email Sent';
-                lc.error='';
-            },
-            function(response) {
-                lc.success = false;
-                lc.successMessage = '';
-                lc.error='Password reset failed: '+response.data.status;
-            });
+        loginService.resetPassword(lc.inputEmail)
+        .then(function() {
+            lc.success=true;
+            lc.successMessage='Password Reset Email Sent';
+            lc.error='';
+        },
+        function(response) {
+            lc.success = false;
+            lc.successMessage = '';
+            lc.error='Password reset failed: '+response.data.status;
+        });
+    }
+
+    function reSendValidation() {
+        loginService.reSendValidation(lc.email)
+        .then(function() {
+            lc.success=true;
+            lc.successMessage='Validation Email Sent';
+            lc.error='';
+        },
+        function(response) {
+            lc.success = false;
+            lc.successMessage = '';
+            lc.error='Validation email failed: '+response.data.status;
+        });
     }
 
     lc.resetPassword = resetPassword;
     lc.login = login;
+    lc.reSendValidation = reSendValidation;
 }
